@@ -65,7 +65,8 @@ a {
 abbr[title] {
   border-bottom: none; /* 1 */
   text-decoration: underline; /* 2 */
-  text-decoration: underline dotted; /* 2 */
+  -webkit-text-decoration: underline dotted;
+          text-decoration: underline dotted; /* 2 */
 }
 
 /**
@@ -415,6 +416,7 @@ h3 {
 
 .header {
   min-height: 60rem;
+  background-image: url(../img/grafico.svg), url(../img/grafico.svg), linear-gradient(to right, #1a1b15, rgba(26, 27, 21, 0)), url(../img/header.jpg), -webkit-image-set(url(../img/header.avif) 1x, url(../img/header.webp) 1x);
   background-image: url(../img/grafico.svg), url(../img/grafico.svg), linear-gradient(to right, #1a1b15, rgba(26, 27, 21, 0)), url(../img/header.jpg), image-set(url(../img/header.avif) 1x, url(../img/header.webp) 1x);
   background-repeat: no-repeat;
   background-size: 400px, 400px, cover, cover;
@@ -455,7 +457,8 @@ h3 {
 .header__logo {
   font-size: clamp(3rem, -0.8rem + 10vw, 8rem);
   background: linear-gradient(to right, #007df4, #00c8c2);
-  background-clip: text;
+  -webkit-background-clip: text;
+          background-clip: text;
   color: transparent;
   text-align: center;
 }
@@ -555,5 +558,55 @@ h3 {
 .navegacion__enlace:hover {
   background-color: #FFFFFF;
   color: #007df4;
+}
+
+.footer {
+  background-color: #007df4;
+  margin-top: 5rem;
+  padding-top: 3rem;
+  color: #FFFFFF;
+}
+.footer__grid {
+  width: min(95%, 140rem);
+  margin: 0 auto;
+}
+@media (min-width: 768px) {
+  .footer__grid {
+    display: grid;
+    gap: 3rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.footerlogo {
+  color: #FFFFFF;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: clamp(2rem, -0.8rem + 10vw, 4rem);
+}
+@media (min-width: 1024px) {
+  .footerlogo {
+    text-align: left;
+    margin: 0;
+  }
+}
+.footer__texto {
+  line-height: 2;
+  text-align: center;
+}
+@media (min-width: 768px) {
+  .footer__texto {
+    text-align: left;
+  }
+}
+.footer__copyright {
+  background-color: #0063c1;
+  margin: 3rem 0 0 0;
+  padding: 2rem 0;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 900;
+}
+.footer__copyright--regular {
+  font-weight: 400;
 }
 /*# sourceMappingURL=app.css.map */
