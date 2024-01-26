@@ -6,9 +6,16 @@
     display: flex;
     justify-content: space-between;
 
+    &--centrar {
+        @extend .acciones; //Extiende la clase padre del elemento, de manera que aplica las instrucciones del elemento padre
+        justify-content: 1center; 
+    }
+
     &__enlace {
         font-size: 1.4rem; 
         color: v.$negro;
 
     }
+
+
 }

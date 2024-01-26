@@ -404,10 +404,13 @@ h3 {
   cursor: pointer;
 }
 
-.acciones {
+.acciones, .acciones--centrar {
   margin-top: 3rem;
   display: flex;
   justify-content: space-between;
+}
+.acciones--centrar {
+  justify-content: 1center;
 }
 .acciones__enlace {
   font-size: 1.4rem;
