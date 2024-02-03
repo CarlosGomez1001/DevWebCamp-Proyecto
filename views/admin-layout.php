@@ -29,7 +29,4 @@
     <script src="/build/js/bundle.min.js" defer></script>
 </body>
 </html>
-@CarlosGomez1001
-Comment
 
-Leave a comment
