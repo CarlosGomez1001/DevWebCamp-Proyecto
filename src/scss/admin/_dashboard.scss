@@ -60,7 +60,9 @@
        align-items:  center;    
        padding: 2rem;
        transition: 300ms background-color ease, 300ms border-radius ease;
-       &:hover {
+
+       &:hover,
+       &--actual {
             background-color: lighten(v.$gris-oscuro, 20);
             color: v.$blanco;
             border-radius: 1rem;
@@ -75,18 +77,33 @@
         font-size: 1.1rem;
         text-transform: uppercase;
         font-weight: v.$bold;
-        margin-top: 1.5rem;
+        margin-top: .5rem;
     }
 
     &__contenido {
-        background-color: gray;
         width: 100%;
-        padding: 1rem, 1rem, 3rem, 1rem;        
+        padding: 1rem 1rem 3rem 1rem;        
         @include m.tablet {
-            padding: 1rem, 5rem, 3rem, 5rem;
+            padding: 1rem 5rem 3rem 5rem;
         }
 
     }
+
+    &__contenedor-boton {
+        @include m.tablet {
+            display: flex;
+            justify-content: flex-end;
+        }
+    }   
+    &__boton{
+        @include m.boton(v.$azul, v.$blanco);
+        text-transform: uppercase;
+        font-size: 1.4rem;
+        @include m.tablet {
+            width: auto;
+        }
+    }
 }
+
 
 
