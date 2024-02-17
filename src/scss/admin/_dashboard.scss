@@ -107,7 +107,7 @@
         }
     }
 
-    &__contendedor {
+    &__contenedor {
         @include m.shadow;
         background-color: v.$blanco;   
         padding: 2rem;
@@ -115,7 +115,7 @@
     }
 
     &__formulario {
-        @extend .dashboard__contendedor;
+        @extend .dashboard__contenedor;
         @include  m.contenedor-md;
     }
 }

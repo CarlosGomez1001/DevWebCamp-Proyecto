@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use Classes\Paginacion;
 use Model\Ponente;
 use MVC\Router;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -9,10 +10,19 @@ use Intervention\Image\ImageManagerStatic as Image;
 class PonentesController {
 
     public static function index(Router $router) {
+        $pagina_actual = 1;
+        $registros_por_pagina = 10;
+        $total = 100;
+
+        $paginacion = new Paginacion($pagina_actual, $registros_por_pagina, $total);
+        debuguear($paginacion);
 
         $ponentes = Ponente::all();
         // debuguear($ponentes);
 
+        if(!is_admin()){
+            header('Location: /login');
+        }
 
         $router->render('admin/ponentes/index', [
             'titulo' => 'Ponentes / Conferencistas','ponentes' => $ponentes
@@ -20,12 +30,18 @@ class PonentesController {
     }
     public static function crear(Router $router) {
 
+        if(!is_admin()){
+            header('Location: /login');
+        }
+
         $alertas = [];
 
         $ponente = new Ponente;
-
+        
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+            if(!is_admin()){
+                header('Location: /login');
+            }   
             if(!empty($_FILES['imagen']['tmp_name'])){
 
                 $carpeta_imagenes = '../public/img/speakers';
@@ -77,7 +93,9 @@ class PonentesController {
     }
 
     public static function editar (Router $router) {
-
+        if(!is_admin()){
+            header('Location: /login');
+        }
         $alertas = [];
         
         // Validar el ID
@@ -90,6 +108,7 @@ class PonentesController {
 
         // Obtener ponente a editar
         $ponente = Ponente::find($id);
+        
 
         if(!$ponente) {
             header('Location: /admin/ponentes');
@@ -97,7 +116,10 @@ class PonentesController {
 
         $ponente->imagen_actual = $ponente->imagen;
 
-        if($_SERVER['REQUES_METHOD'] === 'POST') {
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if(!is_admin()){
+                header('Location: /login');
+            }
 
             if(!empty($_FILES['imagen']['tmp_name'])){
 
@@ -118,10 +140,12 @@ class PonentesController {
             } else {
                 $_POST['imagen'] = $ponente->imagen_actual;
             }
+            $_POST['redes'] = json_encode( $_POST['redes'], JSON_UNESCAPED_SLASHES); 
 
             $ponente->sincronizar($_POST);
             $alertas =  $ponente->validar();
-
+            // debuguear($ponente);
+            
             if(empty($alertas)){
                 if(isset($nombre_imagen)){
                     
@@ -129,7 +153,7 @@ class PonentesController {
                     $imagen_webp->save($carpeta_imagenes . '/' . $nombre_imagen . ".webp");
                 }
                 $resultado = $ponente->guardar();
-
+                
                 if($resultado) {
                     header('Location: /admin/ponentes');
                 }
@@ -137,12 +161,32 @@ class PonentesController {
         }
      
 
-        $router->render('admin/ponentes/crear', [
+        $router->render('admin/ponentes/editar', [
             'titulo' => 'Editar Ponente',
             'alertas' => $alertas,
             'ponente' => $ponente ?? null,
             'redes' => json_decode($ponente->redes)
         ]);
+    }
+
+    public static function eliminar () {
+        
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if(!is_admin()){
+                header('Location: /login');
+            }
+            $id = $_POST['id'];
+            $ponente = Ponente::find($id);
+            if(!isset($ponente)) {  
+                header('Location: /admin/ponentes');
+            }
+            $resultaldo = $ponente->eliminar();
+            
+            if($resultaldo) {
+                header('Location: /admin/ponentes');
+            }
+            
+        }
     }
 }
 
