@@ -19,18 +19,25 @@ class PonentesController {
         }
         
         $registros_por_pagina = 5;
-
+        
         $total = Ponente::total();
         $paginacion = new Paginacion($pagina_actual, $registros_por_pagina, $total);
+        
+        if($paginacion->total_paginas() < $pagina_actual) {
+            header('Location: /admin/ponentes?page=1');
+        }
+        $ponentes = Ponente::paginar($registros_por_pagina, $paginacion->offset());
 
-        debuguear($paginacion->pagina_siguiente());
 
         if(!is_admin()){
             header('Location: /login');
         }
 
+        
         $router->render('admin/ponentes/index', [
-            'titulo' => 'Ponentes / Conferencistas','ponentes' => $ponentes
+            'titulo' => 'Ponentes / Conferencistas',
+            'ponentes' => $ponentes,
+            'paginacion' => $paginacion->paginacion()
         ]);
     }
     public static function crear(Router $router) {
@@ -194,6 +201,3 @@ class PonentesController {
         }
     }
 }
-
-
-
